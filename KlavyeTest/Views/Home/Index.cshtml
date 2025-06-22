@@ -1,0 +1,238 @@
+﻿@model TypingTestViewModel
+@using Newtonsoft.Json
+@using static KlavyeTest.Controllers.HomeController
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klavye Hız Testi</title>
+    <style>
+        /* --- TEMEL STİLLER --- */
+        body {
+            background-color: #e0f7fa;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba( 0, 0, 0, 0.1 );
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+
+        #word-container {
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 22px;
+            line-height: 1.8;
+            height: 150px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+            #word-container span {
+                padding: 2px 4px;
+                border-radius: 3px;
+            }
+
+        .current {
+            background-color: #b2dfdb;
+        }
+
+        .correct {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #c62828;
+            text-decoration: line-through;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #input-box {
+            font-size: 20px;
+            padding: 10px;
+            width: 60%;
+            border: 2px solid #00796b;
+            border-radius: 5px;
+            outline: none;
+        }
+
+            #input-box:focus {
+                border-color: #004d40;
+            }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            background-color: #4db6ac;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 80px;
+            text-align: center;
+        }
+
+        #restart-btn {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            #restart-btn:hover {
+                background-color: #004d40;
+            }
+
+        #results {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #004d40;
+        }
+
+            #results p {
+                margin: 5px 0;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Klavye Hız Testi</h1>
+        <div id="word-container"></div>
+        <div class="controls">
+            <input type="text" id="input-box" placeholder="Buraya yazmaya başlayın..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <div id="timer">@TimeSpan.FromSeconds(Model.DurationInSeconds).ToString(@"m\:ss")</div>
+            <button id="restart-btn" title="Yeniden Başlat">↻</button>
+        </div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const words = @Html.Raw(JsonConvert.SerializeObject(Model.Words));
+        const TEST_DURATION = @Model.DurationInSeconds;
+
+        const wordContainer = document.getElementById('word-container');
+        const inputBox = document.getElementById('input-box');
+        const timerEl = document.getElementById('timer');
+        const resultsEl = document.getElementById('results');
+        const restartBtn = document.getElementById('restart-btn');
+
+        let timer;
+        let timeLeft = TEST_DURATION;
+        let testStarted = false;
+        let currentWordIndex = 0;
+        let correctWordsCount = 0;
+
+        function initializeTest() {
+            clearInterval(timer);
+            timeLeft = TEST_DURATION;
+            testStarted = false;
+            currentWordIndex = 0;
+            correctWordsCount = 0;
+
+            timerEl.textContent = `${Math.floor(TEST_DURATION / 60)}:${(TEST_DURATION % 60).toString().padStart(2, '0')}`;
+            resultsEl.innerHTML = '';
+            inputBox.value = '';
+            inputBox.disabled = false;
+
+            wordContainer.innerHTML = '';
+            const shuffledWords = words.sort(() => Math.random() - 0.5).slice(0, 50);
+            shuffledWords.forEach(word => {
+                const span = document.createElement('span');
+                span.textContent = word + " ";
+                wordContainer.appendChild(span);
+            });
+
+            wordContainer.children[0].classList.add('current');
+            inputBox.focus();
+        }
+
+        inputBox.addEventListener('input', () => {
+            if (!testStarted) {
+                startTimer();
+                testStarted = true;
+            }
+
+            const currentWordSpan = wordContainer.children[currentWordIndex];
+            const typedValue = inputBox.value;
+
+            if (typedValue.endsWith(' ')) {
+                if (typedValue.trim() === currentWordSpan.textContent.trim()) {
+                    currentWordSpan.classList.add('correct');
+                    correctWordsCount++;
+                } else {
+                    currentWordSpan.classList.add('incorrect');
+                }
+
+                currentWordSpan.classList.remove('current');
+                currentWordIndex++;
+                if (currentWordIndex < wordContainer.children.length) {
+                    wordContainer.children[currentWordIndex].classList.add('current');
+                }
+
+                inputBox.value = '';
+            }
+        });
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (timeLeft <= 0) {
+                    endTest();
+                }
+            }, 1000);
+        }
+
+        function endTest() {
+            clearInterval(timer);
+            inputBox.disabled = true;
+            const wpm = correctWordsCount;
+            const totalWordsTyped = currentWordIndex;
+            const accuracy = totalWordsTyped > 0 ? ((correctWordsCount / totalWordsTyped) * 100).toFixed(2) : 0;
+
+            resultsEl.innerHTML = `
+                        <h2>Test Bitti!</h2>
+                        <p>Hızınız: <strong>${wpm} WPM</strong></p>
+                        <p>Doğruluk: <strong>%${accuracy}</strong></p>
+                    `;
+        }
+
+        restartBtn.addEventListener('click', initializeTest);
+        initializeTest();
+    </script>
+</body>
+</html>
