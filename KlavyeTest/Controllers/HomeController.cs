@@ -1,5 +1,6 @@
 ﻿using KlavyeTest.Data;
 using KlavyeTest.Models;
+using KlavyeTest.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -8,11 +9,11 @@ namespace KlavyeTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly ITypingTestService _typingTestService; // Servisi enjekte edeceğiz
 
-        public HomeController(AppDbContext _context)
+        public HomeController(ITypingTestService typingTestService) // Constructor'ı güncelleyin
         {
-            context = _context;
+            _typingTestService = typingTestService;
         }
 
         [HttpGet]
@@ -20,36 +21,23 @@ namespace KlavyeTest.Controllers
         {
             language = language?.Trim();
 
-            var languageId = context.Languages
-     .Where(l => l.Code.ToLower() == language.ToLower())
-     .Select(l => l.Id)
-     .FirstOrDefault();
+            // Veritabanı işlemleri artık servis aracılığıyla yapılıyor
+            var languageId = await _typingTestService.GetLanguageIdByCodeAsync(language);
 
-            var words = new List<string>();
-            if (languageId != 0)
-            {
-                words = await context.Words
-                    .Where(w => w.LanguageId == languageId)
-                    .OrderBy(r => Guid.NewGuid())
-                    .Take(50)
-                    .Select(w => w.Text)
-                    .ToListAsync();
-            }
+            var words = await _typingTestService.GetRandomWordsByLanguageIdAsync(languageId);
+
+            var availableLanguages = await _typingTestService.GetAvailableLanguagesAsync();
 
             var model = new TypingTestViewModel
             {
                 Words = words,
                 DurationInSeconds = durationInSeconds,
                 SelectedLanguage = language,
-                AvailableLanguages = await context.Languages
-                    .Select(l => new LanguageOption { Code = l.Code, Name = l.Name })
-                    .ToListAsync()
+                AvailableLanguages = availableLanguages
             };
 
             return View(model);
         }
-
-
 
         public IActionResult Privacy() => View();
 

@@ -1,4 +1,7 @@
 ﻿using KlavyeTest.Data;
+using KlavyeTest.Services; // KlavyeTest.Services namespace'ini ekledik
+using KlavyeTest.Services.Concretes;
+using KlavyeTest.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,10 @@ builder.Services.AddControllersWithViews();
 // 🔸 DbContext burada olmalıdır (builder.Build()'dan əvvəl!)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("cString")));
+
+// 🔸 Servis katmanını DI konteynerine ekle
+// ITypingTestService arayüzünü TypingTestService sınıfı ile ilişkilendiriyoruz.
+builder.Services.AddScoped<ITypingTestService, TypingTestService>();
 
 var app = builder.Build();
 
