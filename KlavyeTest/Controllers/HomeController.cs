@@ -1,50 +1,74 @@
-﻿using KlavyeTest.Models;
+﻿using KlavyeTest.Data;
+using KlavyeTest.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace KlavyeTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext _context)
         {
-            _logger = logger;
+            context = _context;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string? language = "eng", int durationInSeconds = 60)
         {
-            var words = new List<string>
-        {
-            "elma", "araba", "masa", "kalem", "defter", "bilgisayar", "yazılım", "klavye"
-        };
+            language = language?.Trim();
 
-            int durationInSeconds = 45; // Məsələn, 45 saniyəlik test
+            var languageId = context.Languages
+     .Where(l => l.Code.ToLower() == language.ToLower())
+     .Select(l => l.Id)
+     .FirstOrDefault();
+
+            var words = new List<string>();
+            if (languageId != 0)
+            {
+                words = await context.Words
+                    .Where(w => w.LanguageId == languageId)
+                    .OrderBy(r => Guid.NewGuid())
+                    .Take(50)
+                    .Select(w => w.Text)
+                    .ToListAsync();
+            }
 
             var model = new TypingTestViewModel
             {
                 Words = words,
-                DurationInSeconds = durationInSeconds
+                DurationInSeconds = durationInSeconds,
+                SelectedLanguage = language,
+                AvailableLanguages = await context.Languages
+                    .Select(l => new LanguageOption { Code = l.Code, Name = l.Name })
+                    .ToListAsync()
             };
 
             return View(model);
         }
-        public class TypingTestViewModel
-        {
-            public List<string> Words { get; set; }
-            public int DurationInSeconds { get; set; }
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
+
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() =>
+            View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public class TypingTestViewModel
+    {
+        public List<string> Words { get; set; }
+        public int DurationInSeconds { get; set; }
+        public string SelectedLanguage { get; set; }
+        public List<LanguageOption> AvailableLanguages { get; set; }
+    }
+
+    public class LanguageOption
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NyRbLFeI/7LipGb0h6p/ivioXsTLJnRq2Q44vm/M+N8=",
+  "Hash": "Bbd+eGPdxN9JFCrt3zIs5KIfMgA17IoLurfNMSx1ITg=",
   "Source": "KlavyeTest",
   "BasePath": "_content/KlavyeTest",
   "Mode": "Default",
@@ -55,12 +55,12 @@
       "OriginalItemSpec": "C:\\Users\\Mustafa\\source\\repos\\KlavyeTest\\KlavyeTest\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\KlavyeTest.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Mustafa\\source\\repos\\KlavyeTest\\KlavyeTest\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\Mustafa\\source\\repos\\KlavyeTest\\KlavyeTest\\wwwroot\\css\\TestArea.css",
       "SourceId": "KlavyeTest",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Mustafa\\source\\repos\\KlavyeTest\\KlavyeTest\\wwwroot\\",
       "BasePath": "_content/KlavyeTest",
-      "RelativePath": "css/site.css",
+      "RelativePath": "css/TestArea.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,7 +71,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\site.css"
+      "OriginalItemSpec": "wwwroot\\css\\TestArea.css"
     },
     {
       "Identity": "C:\\Users\\Mustafa\\source\\repos\\KlavyeTest\\KlavyeTest\\wwwroot\\favicon.ico",

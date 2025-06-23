@@ -31,3 +31,14 @@ C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\obj\Debug\net7.0\ref\KlavyeT
 C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\obj\Debug\net7.0\KlavyeTest.csproj.AssemblyReference.cache
 C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\obj\Debug\net7.0\KlavyeTest.csproj.CopyComplete
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\obj\Debug\net7.0\KlavyeTest.sourcelink.json
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Humanizer.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Mono.TextTemplating.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Npgsql.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Mustafa\source\repos\KlavyeTest\KlavyeTest\bin\Debug\net7.0\System.CodeDom.dll
