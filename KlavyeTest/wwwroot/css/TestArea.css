@@ -3,13 +3,13 @@
 :root {
     --background-color: #f0f2f5;
     --container-bg: #ffffff;
-    --primary-color: #1e88e5; /* Daha canlı bir mavi */
+    --primary-color: #1e88e5; 
     --primary-dark: #1565c0;
     --secondary-color: #e0e0e0;
     --text-color: #333;
-    --correct-color: #43a047; /* Yeşil */
-    --incorrect-color: #e53935; /* Kırmızı */
-    --current-bg: #bbdefb; /* Açık mavi */
+    --correct-color: #43a047; 
+    --incorrect-color: #e53935; 
+    --current-bg: #bbdefb; 
     --font-family: 'Poppins', sans-serif;
 }
 
@@ -98,19 +98,19 @@ form button {
     margin-bottom: 30px;
     font-size: 24px;
     line-height: 2;
-    height: 160px; /* Belirli bir yükseklik veriyoruz */
-    overflow-y: auto; /* Taşma durumunda kaydırma çubuğu */
+    height: 160px; 
+    overflow-y: auto; 
     text-align: left;
-    scroll-behavior: smooth; /* Kelimeler arası kaydırma efekti */
+    scroll-behavior: smooth; 
 }
 
     #word-container span {
         padding: 3px 5px;
         border-radius: 4px;
         transition: all 0.2s ease;
-        white-space: nowrap; /* Kelimelerin kırılmasını engelle */
-        display: inline-block; /* Margin ve padding için gerekli */
-        margin-right: 5px; /* Kelimeler arası boşluk */
+        white-space: nowrap;
+        display: inline-block; 
+        margin-right: 5px; 
     }
 
 .current {
@@ -131,15 +131,14 @@ form button {
     text-decoration-thickness: 2px;
 }
 
-/* Anlık yanlış yazım için yeni sınıf */
 .incorrect-char {
-    background-color: #ffcdd2; /* Hafif kırmızı */
+    background-color: #ffcdd2; 
 }
 
 .controls {
     display: flex;
     justify-content: center;
-    align-items: stretch; /* Dikeyde hizalamak için */
+    align-items: stretch; 
     gap: 20px;
     flex-wrap: wrap;
 }
@@ -148,7 +147,7 @@ form button {
     font-family: var(--font-family);
     font-size: 20px;
     padding: 14px 18px;
-    flex-grow: 1; /* Esnek büyüme */
+    flex-grow: 1; 
     min-width: 250px;
     border: 2px solid #ccc;
     border-radius: 8px;
@@ -171,7 +170,7 @@ form button {
     font-weight: 600;
     background-color: var(--primary-dark);
     color: white;
-    padding: 0 25px; /* Dikey padding yerine yatay */
+    padding: 0 25px; 
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -184,8 +183,8 @@ form button {
     background-color: #6c757d;
     color: white;
     border: none;
-    width: 56px; /* Sabit genişlik */
-    height: 56px; /* Sabit yükseklik */
+    width: 56px; 
+    height: 56px; 
     font-size: 24px;
     border-radius: 8px;
     cursor: pointer;
@@ -212,12 +211,12 @@ form button {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    padding: 20px; /* Added for better visibility */
-    background-color: #e8f5e9; /* Added for better visibility */
-    border-radius: 8px; /* Added for better visibility */
-    border: 1px solid #d4edda; /* Added for better visibility */
-    color: #155724; /* Added for better visibility */
-    text-align: left; /* Added for better visibility */
+    padding: 20px;
+    background-color: #e8f5e9; 
+    border-radius: 8px; 
+    border: 1px solid #d4edda;
+    color: #155724; 
+    text-align: left; 
 }
 
     #results.visible {
@@ -241,7 +240,6 @@ form button {
         font-weight: 700;
     }
 
-/* Mobil Cihazlar İçin Duyarlılık */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
@@ -269,7 +267,7 @@ form button {
 
     #input-box, #timer, #restart-btn {
         width: 100%;
-        box-sizing: border-box; /* padding ve border'ı genişliğe dahil et */
+        box-sizing: border-box; 
     }
 
     #timer {
@@ -279,5 +277,72 @@ form button {
     #restart-btn {
         height: auto;
         padding: 14px;
+    }
+}
+/* ================================== */
+/* === GİRİŞ/QEYDİYYAT BUTONLARI === */
+/* ================================== */
+
+.auth-nav {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.auth-btn {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: transparent;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+    .login-btn:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+
+.register-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+    .register-btn:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+    }
+
+
+/* ================================== */
+/* === MOBİL CİHAZLAR ÜÇÜN ƏLAVƏ === */
+/* ================================== */
+@media (max-width: 768px) {
+    .auth-nav {
+        position: relative;
+        top: 0;
+        right: 0;
+        width: 100%;
+        justify-content: flex-end; 
+        padding: 0 20px 20px; 
+        box-sizing: border-box;
+    }
+
+    .auth-btn {
+        font-size: 14px;
+        padding: 6px 16px;
     }
 }

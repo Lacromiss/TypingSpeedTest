@@ -9,9 +9,9 @@ namespace KlavyeTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ITypingTestService _typingTestService; // Servisi enjekte edeceğiz
+        private readonly ITypingTestService _typingTestService; 
 
-        public HomeController(ITypingTestService typingTestService) // Constructor'ı güncelleyin
+        public HomeController(ITypingTestService typingTestService) 
         {
             _typingTestService = typingTestService;
         }
@@ -21,7 +21,6 @@ namespace KlavyeTest.Controllers
         {
             language = language?.Trim();
 
-            // Veritabanı işlemleri artık servis aracılığıyla yapılıyor
             var languageId = await _typingTestService.GetLanguageIdByCodeAsync(language);
 
             var words = await _typingTestService.GetRandomWordsByLanguageIdAsync(languageId);
