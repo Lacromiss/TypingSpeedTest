@@ -1,0 +1,67 @@
+﻿@model KlavyeTest.Models.LoginRegister.AppUser
+
+<h2>@Model.UserName (@Model.Email)</h2>
+<p>Üyelik tarihi: @Model.CreatedAt.ToString("dd MMMM yyyy")</p>
+<p>Klavye Düzeni: @Model.KeyboardLayout</p>
+<p>Klavye Modeli: @Model.KeyboardModel</p>
+
+<h3>İstatistikler</h3>
+<ul>
+    <li>Test Sayısı: @Model.Scores?.Count() ?? 0</li>
+    <li>Toplam Kelime: @Model.Scores?.Sum(s => s.WordCount) ?? 0</li>
+    <li>Yarışma Sayısı: @Model.Scores?.Count(s => s.IsCompetition) ?? 0</li>
+    <li>
+        En Yüksek WPM:
+        @(
+            Model.Scores != null && Model.Scores.Any()
+            ? Math.Round(Model.Scores.Max(s => (double)s.WordCount / (s.DurationSeconds / 60.0)))
+            : 0
+            )
+    </li>
+</ul>
+
+<h4>Skor Geçmişi</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Süre (sn)</th>
+            <th>Doğru Kelime</th>
+            <th>WPM</th>
+            <th>Yarışma</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Scores != null && Model.Scores.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Süre (sn)</th>
+                        <th>Doğru Kelime</th>
+                        <th>WPM</th>
+                        <th>Yarışma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var score in Model.Scores.OrderByDescending(s => s.TestDate))
+                    {
+                        <tr>
+                            <td>@score.TestDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@score.DurationSeconds</td>
+                            <td>@score.WordCount</td>
+                            <td>@Math.Round((double)score.WordCount / (score.DurationSeconds / 60.0))</td>
+                            <td>@(score.IsCompetition ? "✔" : "—")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Henüz test yapılmamış.</p>
+        }
+
+    </tbody>
+</table>
