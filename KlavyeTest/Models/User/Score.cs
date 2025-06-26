@@ -5,8 +5,8 @@ namespace KlavyeTest.Models.User
 {
     public class Score:BaseModel
     {
-        public string UserId { get; set; }
-        public AppUser User { get; set; }
+        public string? UserId { get; set; }
+        public AppUser? User { get; set; }
 
         public int WordCount { get; set; }
         public int IncorrectWordCount { get; set; }

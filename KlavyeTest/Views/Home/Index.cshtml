@@ -18,10 +18,25 @@
 </head>
 <body>
 
-    <div class="auth-nav">
+   <div class="auth-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="User" asp-action="Profile" class="auth-btn profile-btn">
+            <i class="fa fa-user"></i> Profilim
+        </a>
+        <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+            <button type="submit" class="auth-btn logout-btn">
+                <i class="fa fa-sign-out-alt"></i> Çıkış Yap
+            </button>
+        </form>
+    }
+    else
+    {
         <a asp-controller="Account" asp-action="Login" class="auth-btn login-btn">Giriş Yap</a>
         <a asp-controller="Account" asp-action="Register" class="auth-btn register-btn">Kayıt Ol</a>
-    </div>
+    }
+</div>
+
 
     <div class="container">
         <h1>Klavye Hız Testi</h1>
@@ -117,12 +132,18 @@
             </tbody>
         </table>
     </div>
+  
 
     <script>
+        // C#'dan gelen verileri ve durumu JavaScript'teki global değişkenlere atıyoruz.
+        // Bu script bloğu, site.js'den ÖNCE gelmelidir ki site.js bu değişkenlere erişebilsin.
         const allWords = @Html.Raw(JsonConvert.SerializeObject(Model.Words));
         const TEST_DURATION = @Model.DurationInSeconds;
+        const isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true ya da false olarak JS'e geçer
     </script>
+
     <script src="~/js/site.js"></script>
+   
 
 </body>
 </html>

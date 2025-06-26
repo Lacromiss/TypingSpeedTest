@@ -19,6 +19,8 @@ namespace KlavyeTest.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string? language = "eng", int durationInSeconds = 60)
         {
+            ViewBag.IsLoggedIn = User.Identity.IsAuthenticated;
+
             language = language?.Trim();
 
             var languageId = await _typingTestService.GetLanguageIdByCodeAsync(language);
