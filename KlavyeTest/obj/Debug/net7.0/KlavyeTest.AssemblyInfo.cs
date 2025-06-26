@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KlavyeTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b7c2a95182c30d9b33f8127831b14aefb4b3784")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ddbcabe9c502694d303b2c0fbbaf7d7edaa23ff2")]
 [assembly: System.Reflection.AssemblyProductAttribute("KlavyeTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KlavyeTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

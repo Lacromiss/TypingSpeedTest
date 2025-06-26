@@ -2,28 +2,179 @@
     ViewData["Title"] = "Giriş Yap";
 }
 
-<h2>Giriş Yap</h2>
+<style>
+    /* Sayfanın genel arkaplanı ve yazı tipi (Kayıt sayfasıyla aynı) */
+    body {
+        background: linear-gradient(120deg, #eef2f3, #f0f5f8);
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+    }
 
-<form asp-action="Login" method="post">
-    <div class="form-group">
-        <label>Email</label>
-        <input name="email" type="email" class="form-control" required />
-    </div>
+    /* Formu saran ve ortalayan ana kutu */
+    .login-container {
+        max-width: 450px;
+        width: 100%;
+        padding: 45px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        /* Üst tarafa bu sefer yeşil tonunda bir şerit ekliyoruz */
+        border-top: 5px solid #28a745; 
+        position: relative;
+        overflow: hidden;
+    }
 
-    <div class="form-group">
-        <label>Şifre</label>
-        <input name="password" type="password" class="form-control" required />
-    </div>
+    /* Form başlığı */
+    .login-container h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        font-weight: 700;
+        font-size: 28px;
+    }
 
-    <button type="submit" class="btn btn-success mt-2">Giriş Yap</button>
-</form>
+    /* İkonları ve Kayan Etiketleri barındıran form grubu */
+    .form-group {
+        position: relative; /* İçindeki ikon ve etiketleri konumlandırmak için */
+        margin-bottom: 30px;
+    }
+    
+    /* İkon Stilleri */
+    .form-group .icon {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        color: #95a5a6;
+        transition: color 0.3s;
+    }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger mt-2">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <p>@error.ErrorMessage</p>
-        }
-    </div>
-}
+    /* Giriş alanı (input) stilleri */
+    .form-control {
+        width: 100%;
+        padding: 14px 15px 14px 50px; /* İkon için solda boşluk bıraktık */
+        border: 2px solid #dfe6e9;
+        border-radius: 10px;
+        box-sizing: border-box; 
+        background-color: #f9fafb;
+        color: #34495e;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    /* Odaklanıldığında giriş alanının ve ikonun rengini değiştiriyoruz */
+    .form-control:focus {
+        border-color: #28a745; /* Vurgu rengi olarak yeşil */
+        outline: none;
+    }
+    
+    .form-control:focus + .icon {
+        color: #28a745;
+    }
+
+    /* Kayan Etiket (Floating Label) Stilleri */
+    .form-group label {
+        position: absolute;
+        top: 15px;
+        left: 50px;
+        color: #95a5a6;
+        pointer-events: none; /* Etiketin tıklamayı engellememesi için */
+        transition: all 0.3s ease;
+    }
+    
+    /* Input odaklandığında veya içinde yazı olduğunda etiketi yukarı kaydır */
+    .form-control:focus ~ label,
+    .form-control:not(:placeholder-shown) ~ label {
+        top: -12px;
+        left: 15px;
+        font-size: 12px;
+        color: #28a745; /* Vurgu rengi olarak yeşil */
+        background-color: white;
+        padding: 0 5px;
+    }
+    
+    /* Tarayıcıların otomatik doldurma arkaplanını kaldırmak için */
+    .form-control:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px #f9fafb inset !important;
+      -webkit-text-fill-color: #34495e !important;
+    }
+    .form-control:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 30px #f9fafb inset, 0 0 0 9999px #28a74500;
+    }
+
+    /* Ana buton - Bu sefer yeşil tonlarında gradient ve gölge efekti */
+    .btn-success {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        border: none;
+        padding: 16px 20px;
+        width: 100%;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        margin-top: 10px;
+    }
+
+    /* Butonun üzerine gelindiğinde (hover) efekti */
+    .btn-success:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
+        background: linear-gradient(45deg, #2dbf4e, #25e0ad);
+    }
+    
+    /* Hata mesajlarının stilleri */
+    .text-danger {
+        background-color: #fff2f2;
+        border: 1px solid #ff7272;
+        color: #d8000c;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 25px;
+    }
+
+    .text-danger p {
+        margin: 0;
+        font-size: 14px;
+    }
+</style>
+
+<div class="login-container">
+    <h2>Giriş Yap</h2>
+
+    <form asp-action="Login" method="post">
+        <div class="form-group">
+            <input name="email" type="email" class="form-control" required placeholder=" " />
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+            </svg>
+            <label>Email</label>
+        </div>
+
+        <div class="form-group">
+            <input name="password" type="password" class="form-control" required placeholder=" " />
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+            </svg>
+            <label>Şifre</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Giriş Yap</button>
+    </form>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="text-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+</div>
