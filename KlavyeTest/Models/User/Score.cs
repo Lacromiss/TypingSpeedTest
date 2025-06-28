@@ -7,6 +7,7 @@ namespace KlavyeTest.Models.User
     {
         public string? UserId { get; set; }
         public AppUser? User { get; set; }
+        //cod
 
         public int WordCount { get; set; }
         public int IncorrectWordCount { get; set; }
